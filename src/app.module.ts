@@ -18,18 +18,18 @@ import { OrdersModule } from './orders/orders.module';
     // PostgreSQL con TypeORM
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
+      host: process.env.DB_HOST || 'localhost',
       port: parseInt(process.env.DB_PORT || '5432', 10),
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      database: process.env.DB_NAME,
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      username: process.env.DB_USER || 'postgres',
+      password: process.env.DB_PASS ? String(process.env.DB_PASS) : 'postgres',
+      database: process.env.DB_NAME || 'ghibli_db',
+      entities: [__dirname + '../src/**/*.entity{.ts,.js}'],
       synchronize: true,
       ssl: false,
     }),
 
-    // MongoDB con Mongoose
-    MongooseModule.forRoot(process.env.MONGO_URI),
+    // MongoDB con Mongoose (YA CORREGIDO)
+    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost/ghibli'),
 
     // Módulos de tu app
     AuthModule,
@@ -43,4 +43,3 @@ import { OrdersModule } from './orders/orders.module';
   providers: [AppService],
 })
 export class AppModule {}
-
