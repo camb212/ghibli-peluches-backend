@@ -15,21 +15,28 @@ import { OrdersModule } from './orders/orders.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
 
-    // PostgreSQL con TypeORM
+    // PostgreSQL con TypeORM - Neon Database
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST || 'localhost',
+      host: process.env.DB_HOST,
       port: parseInt(process.env.DB_PORT || '5432', 10),
-      username: process.env.DB_USER || 'postgres',
-      password: process.env.DB_PASS ? String(process.env.DB_PASS) : 'postgres',
-      database: process.env.DB_NAME || 'ghibli_db',
-      entities: [__dirname + '../src/**/*.entity{.ts,.js}'],
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
+      entities: [__dirname + '/**/*.typeorm.entity{.ts,.js}'], // Only TypeORM entities
       synchronize: true,
-      ssl: false,
+      ssl: {
+        rejectUnauthorized: false
+      },
+      extra: {
+        ssl: {
+          rejectUnauthorized: false
+        }
+      }
     }),
 
-    // MongoDB con Mongoose (YA CORREGIDO)
-    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost/ghibli'),
+    // MongoDB con Mongoose - Using Atlas Cloud Database
+    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/ghibli'),
 
     // Módulos de tu app
     AuthModule,
