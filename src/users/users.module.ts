@@ -2,14 +2,13 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { UsersService } from './users.service';
-import { UsersController } from './users.controller'; // si tienes
+import { UsersController } from './users.controller';
 import { User } from './user.entity';
-import { RolesGuard } from 'src/auth/decorators/roles.guard';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])], // 👈 ESTO ES OBLIGATORIO
-  controllers: [UsersController], // si lo tienes
-  providers: [UsersService,RolesGuard],
-  exports: [UsersService], // si otros módulos lo usan
+  imports: [TypeOrmModule.forFeature([User])],
+  controllers: [UsersController],
+  providers: [UsersService],      // <-- Aquí debe ir UsersService
+  exports: [UsersService],        // <-- Y aquí exportas para que otros módulos puedan usarlo
 })
 export class UsersModule {}
