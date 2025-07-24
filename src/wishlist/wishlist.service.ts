@@ -19,4 +19,13 @@ export class WishlistService {
   async getWishlist(userId: string): Promise<Wishlist | null> {
     return this.wishlistModel.findOne({ userId }).exec();
   }
+
+  // ✅ NUEVO: eliminar un peluche de la lista
+  async removeFromWishlist(userId: string, plushieId: string): Promise<Wishlist | null> {
+    const wishlist = await this.wishlistModel.findOne({ userId }).exec();
+    if (!wishlist) return null;
+
+    wishlist.items = wishlist.items.filter(item => item.plushieId !== plushieId);
+    return wishlist.save();
+  }
 }

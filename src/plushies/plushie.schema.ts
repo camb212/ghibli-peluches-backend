@@ -11,10 +11,10 @@ export class Plushie {
   @Prop()
   description: string;
 
-  @Prop()
+  @Prop({ required: true })
   price: number;
 
-  @Prop()
+  @Prop({ required: true })
   image: string;
 }
 
