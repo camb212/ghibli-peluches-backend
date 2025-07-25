@@ -1,7 +1,7 @@
 import { Controller, Post, Body, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
-import { User } from 'src/users/user.entity';
+import { User } from 'src/users/user.typeorm.entity';
 import { LoginDto } from './dto/login.dto';
 @Controller('auth') 
 export class AuthController {
@@ -16,15 +16,14 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
     const user = await this.authService.validateUser(
-    loginDto.username,
-    loginDto.password,
-  );
-  if (!user) {
-    throw new UnauthorizedException('Usuario o contraseña incorrectos');
+      loginDto.correo,
+      loginDto.password,
+    );
+    if (!user) {
+      throw new UnauthorizedException('Usuario o contraseña incorrectos');
+    }
+    return this.authService.login(user);
   }
-
-  return this.authService.login(user);
-}
 
 
   async findByCorreo(correo: string): Promise<User | undefined> {
