@@ -8,7 +8,7 @@ async function bootstrap() {
   // Habilita CORS para permitir peticiones desde cualquier origen
   app.enableCors({
     origin: '*', // O puedes especificar un dominio exacto como: 'https://mi-frontend.vercel.app'
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE','PUT'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   });
 
