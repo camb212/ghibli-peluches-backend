@@ -8,8 +8,14 @@ export class Plushie {
   @Prop({ required: true })
   name: string;
 
-  @Prop()
-  description: string;
+  @Prop({ required: true })
+  color: string;
+
+  @Prop({ required: true })
+  size: 'small' | 'medium' | 'large';
+
+  @Prop({ required: true })
+  material: string;
 
   @Prop({ required: true })
   price: number;

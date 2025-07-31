@@ -15,9 +15,10 @@ import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
+    // Cargar variables de entorno globalmente
     ConfigModule.forRoot({ isGlobal: true }),
 
-    // PostgreSQL con TypeORM - Neon Database
+    // Conexión a PostgreSQL con TypeORM
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
@@ -25,20 +26,16 @@ import { OrdersModule } from './orders/orders.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      entities: [__dirname + '/**/*.typeorm.entity{.ts,.js}'], 
+      entities: [__dirname + '/**/*.typeorm.entity{.ts,.js}'],
       synchronize: true,
-      ssl: {
-        rejectUnauthorized: false,
-      },
-      extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      },
+      ssl:
+        process.env.NODE_ENV === 'production'
+          ? { rejectUnauthorized: false }
+          : false,
     }),
 
-    // MongoDB con Mongoose - Using Atlas Cloud Database
-    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/ghibli'),
+    // Conexión a MongoDB con Mongoose
+    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/mundo_ginlin'),
 
     // Módulos de la app
     AuthModule,
